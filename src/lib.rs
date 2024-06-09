@@ -1,15 +1,25 @@
 use std::fs;
 
+use sled::Db;
 use walkdir::WalkDir;
 
 static SLED_PATH: &str = "sled";
 static ROCKS_DB_PATH: &str = "rocksdb";
 
-pub fn initialize_sled() {
-    sled::open(SLED_PATH).unwrap();
+pub fn sled() -> Db {
+    sled::open(SLED_PATH).unwrap()
 }
 
-pub fn add_to_sled() {}
+pub fn add_to_sled(db: Db, start: u64, end: u64) {
+    for i in start..end {
+        // Convert u64 to byte array using little endian format
+        let key = i.to_le_bytes();
+        let value = i.to_le_bytes();
+
+        // Insert the key-value pair into the sled database
+        db.insert(&key, &value).expect("Failed to insert into sled");
+    }
+}
 
 pub fn measure_sled_size() -> String {
     calculate_directory_size(SLED_PATH)
