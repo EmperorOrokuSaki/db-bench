@@ -2,13 +2,11 @@ use std::fs;
 
 use walkdir::WalkDir;
 
-mod bench;
-
 static SLED_PATH: &str = "sled";
 static ROCKS_DB_PATH: &str = "rocksdb";
 
 pub fn initialize_sled() {
-    let db = sled::open(SLED_PATH).unwrap();
+    sled::open(SLED_PATH).unwrap();
 }
 
 pub fn measure_sled_size() -> u64 {
