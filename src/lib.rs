@@ -21,20 +21,13 @@ pub fn add_to_sled(db: Db, start: u64, end: u64) {
     }
 }
 
-pub fn measure_sled_size() -> String {
-    calculate_directory_size(SLED_PATH)
-}
-
-pub fn measure_rocksdb_size() -> String {
-    calculate_directory_size(ROCKS_DB_PATH)
-}
-
-fn calculate_directory_size(path: &str) -> String {
+pub fn calculate_directory_size(path: &str) -> String {
     let mut total_size = 0;
 
     // Traverse the directory and its subdirectories
     for entry in WalkDir::new(path) {
         let entry = entry.unwrap();
+        dbg!(entry.path());
         let metadata = fs::metadata(entry.path()).unwrap();
 
         // Add file size to total
